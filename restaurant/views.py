@@ -1,5 +1,5 @@
 # from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 
 from .models import Menu
@@ -77,9 +77,6 @@ def menu(request):
     return render(request, 'menu.html', {"menu": main_data})
 
 
-def display_menu_item(request, pk=None): 
-    if pk: 
-        menu_item = Menu.objects.get(pk=pk) 
-    else: 
-        menu_item = "" 
-    return render(request, 'menu_item.html', {"menu_item": menu_item}) 
+def display_menu_item(request, pk=None):
+    menu_item = get_object_or_404(Menu, pk=pk) if pk else ""
+    return render(request, 'menu_item.html', {"menu_item": menu_item})
